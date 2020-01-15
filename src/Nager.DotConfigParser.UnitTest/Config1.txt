@@ -1,0 +1,8 @@
+﻿targetversion=MOCK-XXX
+cardreader.url=CardReader://localhost:4006
+system.id=250
+photo.delay = 0
+photoservice.1.spotid = 250
+photoservice.1.photo.url=http://127.0.0.1:8080/
+photoservice.1.motion.timeout=35000
+night.hours=18,19,20,21,22,23,0,1,2,3,4,5,6,7
