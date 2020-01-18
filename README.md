@@ -3,7 +3,7 @@ dot seperated configuration parser
 
 A parser for c# to read dot seperated config files
 
-Example config
+**Example text config**
 ```
 alarm.signal=light
 alarm.signal.color=red
@@ -11,6 +11,10 @@ alarm.reset.seconds=2
 ```
 
 ```cs
+
+var configParser = new ConfigParser();
+var item = configParser.DeserializeObject<ExampleConfiguration>(config);
+
 public class ExampleConfiguration
 {
     [ConfigKey("alarm.signal")]
