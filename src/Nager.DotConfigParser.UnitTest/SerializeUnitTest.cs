@@ -1,0 +1,23 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace Nager.DotConfigParser.UnitTest
+{
+    [TestClass]
+    public class SerializeUnitTest
+    {
+        [TestMethod]
+        public void SerializeTest1()
+        {
+            var config = new Mock1DeviceConfiguration
+            {
+                TargetVersion = "MOCK-1234"
+                //NightHours = new [] { 1, 2, 3, 4 }
+            };
+
+            var configParser = new ConfigParser();
+            var item = configParser.SerializeObject<Mock1DeviceConfiguration>(config);
+
+
+        }
+    }
+}

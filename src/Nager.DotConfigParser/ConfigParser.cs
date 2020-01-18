@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace Nager.DotConfigParser
 {
@@ -155,7 +156,23 @@ namespace Nager.DotConfigParser
 
         public string SerializeObject<T>(T value)
         {
-            return default;
+            var sb = new StringBuilder();
+
+            var properties = value.GetType().GetProperties();
+            foreach (var property in properties)
+            {
+                var key = property.Name.ToLower();
+
+                if (Attribute.IsDefined(property, typeof(ConfigKeyAttribute)))
+                {
+                    var attribute = (ConfigKeyAttribute[])property.GetCustomAttributes(typeof(ConfigKeyAttribute), false);
+                    key = attribute.FirstOrDefault().Key;
+                }
+
+                sb.AppendLine($"{key}={property.GetValue(value)?.ToString()}");
+            }
+
+            return sb.ToString();
         }
     }
 }
