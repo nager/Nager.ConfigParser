@@ -74,5 +74,26 @@ namespace Nager.DotConfigParser.UnitTest
 
             CollectionAssert.AreEqual(new int[] { 18, 19, 22, 23, 0, 1, 2, 3, 4, 5, 6, 7 }, item.NightHours);
         }
+
+        [TestMethod]
+        public void ConfigArrayTest1()
+        {
+            var config = "targetversion=MOCK-XXX\r\n" +
+                "photoservice.1.spotid = 250\r\n" +
+                "photoservice.1.publish.ids = 1,2,3,4\r\n" +
+                "photoservice.2.spotid = 251\r\n" +
+                "photoservice.2.publish.ids = 5,6,7,8";
+
+            var configParser = new ConfigParser();
+            var item = configParser.DeserializeObject<Mock1DeviceConfiguration>(config);
+
+            Assert.AreEqual("MOCK-XXX", item.TargetVersion);
+            Assert.AreEqual("1", item.Photoservice[0].ConfigArrayIndex);
+            Assert.AreEqual("250", item.Photoservice[0].SpotId);
+            CollectionAssert.AreEqual(new int[] { 1, 2, 3, 4 }, item.Photoservice[0].PublishIds);
+            Assert.AreEqual("2", item.Photoservice[1].ConfigArrayIndex);
+            Assert.AreEqual("251", item.Photoservice[1].SpotId);
+            CollectionAssert.AreEqual(new int[] { 5, 6, 7, 8 }, item.Photoservice[1].PublishIds);
+        }
     }
 }
