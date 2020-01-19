@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29418.71
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nager.DotConfigParser.UnitTest", "Nager.DotConfigParser.UnitTest\Nager.DotConfigParser.UnitTest.csproj", "{F9DB0D7D-013D-4D12-A24C-0AB1648263A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nager.ConfigParser.UnitTest", "Nager.ConfigParser.UnitTest\Nager.ConfigParser.UnitTest.csproj", "{F9DB0D7D-013D-4D12-A24C-0AB1648263A3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nager.DotConfigParser", "Nager.DotConfigParser\Nager.DotConfigParser.csproj", "{A0F730CA-E36B-4A03-BC98-B4A284792E08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nager.ConfigParser", "Nager.ConfigParser\Nager.ConfigParser.csproj", "{A0F730CA-E36B-4A03-BC98-B4A284792E08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Nager.DotConfigParser.ParserUnit
+namespace Nager.ConfigParser.ParserUnit
 {
     internal class IntArrayParserUnit : BaseParserUnit
     {

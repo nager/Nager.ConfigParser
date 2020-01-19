@@ -1,4 +1,4 @@
-# Nager.DotConfigParser
+# Nager.ConfigParser
 dot seperated configuration parser
 
 A parser for c# to read dot seperated config files
@@ -12,8 +12,8 @@ alarm.reset.seconds=2
 
 ```cs
 
-var configParser = new ConfigParser();
-var item = configParser.DeserializeObject<ExampleConfiguration>(config);
+var configConvert = new ConfigConvert();
+var item = configConvert.DeserializeObject<ExampleConfiguration>(config);
 
 public class ExampleConfiguration
 {

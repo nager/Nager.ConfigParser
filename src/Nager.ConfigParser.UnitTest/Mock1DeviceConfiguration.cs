@@ -1,4 +1,4 @@
-﻿namespace Nager.DotConfigParser.UnitTest
+﻿namespace Nager.ConfigParser.UnitTest
 {
     public class Mock1DeviceConfiguration
     {

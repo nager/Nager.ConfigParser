@@ -1,6 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Nager.DotConfigParser.UnitTest
+namespace Nager.ConfigParser.UnitTest
 {
     [TestClass]
     public class SerializeUnitTest
@@ -14,7 +14,7 @@ namespace Nager.DotConfigParser.UnitTest
                 NightHours = new [] { 1, 2, 3, 4 }
             };
 
-            var configParser = new ConfigParser();
+            var configParser = new ConfigConvert();
             var item = configParser.SerializeObject<Mock1DeviceConfiguration>(config);
         }
 
@@ -35,7 +35,7 @@ namespace Nager.DotConfigParser.UnitTest
                 }
             };
 
-            var configParser = new ConfigParser();
+            var configParser = new ConfigConvert();
             var item = configParser.SerializeObject<Mock1DeviceConfiguration>(config);
         }
     }

@@ -4,14 +4,14 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Nager.DotConfigParser
+namespace Nager.ConfigParser
 {
-    public class ConfigParser
+    public class ConfigConvert
     {
         private readonly char _splitChar;
         private readonly Dictionary<Type, BaseParserUnit> _parserUnits = new Dictionary<Type, BaseParserUnit>();
 
-        public ConfigParser(char splitChar = '=')
+        public ConfigConvert(char splitChar = '=')
         {
             this._splitChar = splitChar;
 

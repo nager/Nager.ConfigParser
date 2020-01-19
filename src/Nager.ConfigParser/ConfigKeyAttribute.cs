@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nager.DotConfigParser
+namespace Nager.ConfigParser
 {
     public class ConfigKeyAttribute : Attribute
     {

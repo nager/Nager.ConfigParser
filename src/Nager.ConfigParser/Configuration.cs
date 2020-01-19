@@ -1,4 +1,4 @@
-﻿namespace Nager.DotConfigParser
+﻿namespace Nager.ConfigParser
 {
     internal class Configuration
     {

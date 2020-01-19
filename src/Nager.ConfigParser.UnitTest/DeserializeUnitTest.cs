@@ -1,7 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 
-namespace Nager.DotConfigParser.UnitTest
+namespace Nager.ConfigParser.UnitTest
 {
     [TestClass]
     public class DeserializeUnitTest
@@ -12,7 +12,7 @@ namespace Nager.DotConfigParser.UnitTest
         {
             var config = File.ReadAllText("Config1.txt");
 
-            var configParser = new ConfigParser();
+            var configParser = new ConfigConvert();
             var item = configParser.DeserializeObject<Mock1DeviceConfiguration>(config);
 
             Assert.AreEqual("250", item.SystemId);
@@ -25,7 +25,7 @@ namespace Nager.DotConfigParser.UnitTest
         {
             var config = "#system.id=12\r\nsystem.id=14";
 
-            var configParser = new ConfigParser();
+            var configParser = new ConfigConvert();
             var item = configParser.DeserializeObject<Mock1DeviceConfiguration>(config);
 
             Assert.AreEqual("14", item.SystemId);
@@ -36,7 +36,7 @@ namespace Nager.DotConfigParser.UnitTest
         {
             var config = "system.id=12\r\nsystem.id=14";
 
-            var configParser = new ConfigParser();
+            var configParser = new ConfigConvert();
             var item = configParser.DeserializeObject<Mock1DeviceConfiguration>(config);
 
             Assert.AreEqual("14", item.SystemId);
@@ -47,7 +47,7 @@ namespace Nager.DotConfigParser.UnitTest
         {
             var config = "night.hours=18,19,20,21,22,23,0,1,2,3,4,5,6,7";
 
-            var configParser = new ConfigParser();
+            var configParser = new ConfigConvert();
             var item = configParser.DeserializeObject<Mock1DeviceConfiguration>(config);
 
             CollectionAssert.AreEqual(new int[] { 18, 19, 20, 21, 22, 23, 0, 1, 2, 3, 4, 5, 6, 7 }, item.NightHours);
@@ -58,7 +58,7 @@ namespace Nager.DotConfigParser.UnitTest
         {
             var config = "night.hours=18,19,,,22,23,0,1,2,3,4,5,6,7";
 
-            var configParser = new ConfigParser();
+            var configParser = new ConfigConvert();
             var item = configParser.DeserializeObject<Mock1DeviceConfiguration>(config);
 
             CollectionAssert.AreEqual(new int[] { 18, 19, 22, 23, 0, 1, 2, 3, 4, 5, 6, 7 }, item.NightHours);
@@ -69,7 +69,7 @@ namespace Nager.DotConfigParser.UnitTest
         {
             var config = "night.hours=18,19,a,22,23,0,1,2,3,4,5,6,7";
 
-            var configParser = new ConfigParser();
+            var configParser = new ConfigConvert();
             var item = configParser.DeserializeObject<Mock1DeviceConfiguration>(config);
 
             CollectionAssert.AreEqual(new int[] { 18, 19, 22, 23, 0, 1, 2, 3, 4, 5, 6, 7 }, item.NightHours);
@@ -84,7 +84,7 @@ namespace Nager.DotConfigParser.UnitTest
                 "photoservice.2.spotid = 251\r\n" +
                 "photoservice.2.publish.ids = 5,6,7,8";
 
-            var configParser = new ConfigParser();
+            var configParser = new ConfigConvert();
             var item = configParser.DeserializeObject<Mock1DeviceConfiguration>(config);
 
             Assert.AreEqual("MOCK-XXX", item.TargetVersion);

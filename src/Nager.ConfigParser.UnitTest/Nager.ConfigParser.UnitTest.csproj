@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Nager.DotConfigParser\Nager.DotConfigParser.csproj" />
+    <ProjectReference Include="..\Nager.ConfigParser\Nager.ConfigParser.csproj" />
   </ItemGroup>
 
   <ItemGroup>
