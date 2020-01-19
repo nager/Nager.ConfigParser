@@ -71,7 +71,7 @@ namespace Nager.DotConfigParser
 
             if (Attribute.IsDefined(property, typeof(ConfigArrayAttribute)))
             {
-                this.ProcessArray(property, key, item, configurations);
+                this.ProcessReadArray(property, key, item, configurations);
                 return;
             }
 
@@ -94,7 +94,7 @@ namespace Nager.DotConfigParser
             property.SetValue(item, configuration.Data);
         }
 
-        private void ProcessArray<T>(PropertyInfo property, string key, T item, IEnumerable<Configuration> configurations)
+        private void ProcessReadArray<T>(PropertyInfo property, string key, T item, IEnumerable<Configuration> configurations)
         {
             //Filter only valid configurations
             var filteredConfigurations = configurations.Where(o => o.Key.StartsWith(key))
@@ -161,18 +161,102 @@ namespace Nager.DotConfigParser
             var properties = value.GetType().GetProperties();
             foreach (var property in properties)
             {
-                var key = property.Name.ToLower();
-
-                if (Attribute.IsDefined(property, typeof(ConfigKeyAttribute)))
+                var configLine = this.WriteValue(property, value);
+                if (configLine == null)
                 {
-                    var attribute = (ConfigKeyAttribute[])property.GetCustomAttributes(typeof(ConfigKeyAttribute), false);
-                    key = attribute.FirstOrDefault().Key;
+                    continue;
                 }
-
-                sb.AppendLine($"{key}={property.GetValue(value)?.ToString()}");
+                sb.AppendLine(configLine);
             }
 
             return sb.ToString();
+        }
+
+        private string WriteValue<T>(PropertyInfo property, T value)
+        {
+            var key = property.Name.ToLower();
+
+            if (Attribute.IsDefined(property, typeof(ConfigKeyAttribute)))
+            {
+                var attribute = (ConfigKeyAttribute[])property.GetCustomAttributes(typeof(ConfigKeyAttribute), false);
+                key = attribute.FirstOrDefault().Key;
+            }
+
+            #region Array logic
+
+            if (Attribute.IsDefined(property, typeof(ConfigArrayAttribute)))
+            {
+                return this.ProcessWriteArray(property, key, value);
+            }
+
+            #endregion
+
+            var parserUnit = this._parserUnits.Where(o => o.Key.Equals(property.PropertyType)).Select(o => o.Value).FirstOrDefault();
+            if (parserUnit != null)
+            {
+                var configData = parserUnit.Serialize(property.GetValue(value));
+                if (configData == null)
+                {
+                    return null;
+                }
+                return $"{key}={configData}";
+            }
+
+            var item = property.GetValue(value);
+            if (item == null)
+            {
+                return null;
+            }
+
+            return $"{key}={item}";
+        }
+
+        private string ProcessWriteArray<T>(PropertyInfo property, string key, T value)
+        {
+            var items = (Array)property.GetValue(value);
+            if (items == null)
+            {
+                return null;
+            }
+
+            var elementType = property.PropertyType.GetElementType();
+            var instance = Activator.CreateInstance(elementType);
+
+            var sb = new StringBuilder();
+
+            foreach (var item in items)
+            {
+                var childProperties = instance.GetType().GetProperties();
+
+                var arrayIndex = "0";
+                foreach (var childProperty in childProperties)
+                {
+                    //Set the array index from the config
+                    if (childProperty.Name == nameof(ConfigArrayElement.ConfigArrayIndex))
+                    {
+                        arrayIndex = childProperty.GetValue(item)?.ToString();
+                        break;
+                    }
+                }
+
+                foreach (var childProperty in childProperties)
+                {
+                    //Set the array index from the config
+                    if (childProperty.Name == nameof(ConfigArrayElement.ConfigArrayIndex))
+                    {
+                        continue;
+                    }
+
+                    var configData = this.WriteValue(childProperty, item);
+                    if (configData == null)
+                    {
+                        continue;
+                    }
+                    sb.AppendLine($"{key}{arrayIndex}.{configData}");
+                }
+            }
+
+            return sb.ToString().TrimEnd(); ;
         }
     }
 }

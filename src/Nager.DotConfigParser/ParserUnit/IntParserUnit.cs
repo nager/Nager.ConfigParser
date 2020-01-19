@@ -18,7 +18,12 @@ namespace Nager.DotConfigParser.ParserUnit
 
         public override string Serialize(object value)
         {
-            throw new NotImplementedException();
+            if (value == null)
+            {
+                return null;
+            }
+
+            return $"{value}";
         }
     }
 }

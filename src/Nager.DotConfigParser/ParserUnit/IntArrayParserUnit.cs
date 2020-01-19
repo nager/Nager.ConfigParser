@@ -22,7 +22,12 @@ namespace Nager.DotConfigParser.ParserUnit
 
         public override string Serialize(object value)
         {
-            throw new NotImplementedException();
+            if (value is int[] items)
+            {
+                return string.Join(",", items);
+            }
+
+            return null;
         }
     }
 }
