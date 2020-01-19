@@ -1,7 +1,7 @@
 # Nager.ConfigParser
 dot seperated configuration parser
 
-A parser for c# to read dot seperated config files
+A parser for c# to read `.` seperated config files
 
 **Example text config**
 ```
