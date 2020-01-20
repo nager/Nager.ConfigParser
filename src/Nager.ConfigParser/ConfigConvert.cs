@@ -11,7 +11,7 @@ namespace Nager.ConfigParser
         private readonly char _splitChar;
         private readonly Dictionary<Type, BaseParserUnit> _parserUnits = new Dictionary<Type, BaseParserUnit>();
 
-        public ConfigConvert(char splitChar = '=')
+        public ConfigConvert(char splitChar = '=', BaseParserUnit[] customParserUnits = null)
         {
             this._splitChar = splitChar;
 
@@ -19,6 +19,14 @@ namespace Nager.ConfigParser
             foreach (var parserUnit in parserUnits)
             {
                 this._parserUnits.Add(parserUnit.ParserUnitType, parserUnit);
+            }
+
+            if(customParserUnits != null)
+            {
+                foreach (var parserUnit in customParserUnits)
+                {
+                    this._parserUnits.Add(parserUnit.ParserUnitType, parserUnit);
+                }
             }
         }
 
@@ -256,7 +264,7 @@ namespace Nager.ConfigParser
                 }
             }
 
-            return sb.ToString().TrimEnd(); ;
+            return sb.ToString().TrimEnd();
         }
     }
 }
