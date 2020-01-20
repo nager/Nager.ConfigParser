@@ -21,9 +21,12 @@ namespace Nager.ConfigParser
                 this._parserUnits.Add(parserUnit.ParserUnitType, parserUnit);
             }
 
-            foreach (var parserUnit in customParserUnits)
+            if(customParserUnits != null)
             {
-                this._parserUnits.Add(parserUnit.ParserUnitType, parserUnit);
+                foreach (var parserUnit in customParserUnits)
+                {
+                    this._parserUnits.Add(parserUnit.ParserUnitType, parserUnit);
+                }
             }
         }
 
