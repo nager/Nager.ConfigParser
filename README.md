@@ -1,5 +1,5 @@
 # Nager.ConfigParser
-dot seperated configuration parser
+key value seperated configuration parser
 
 A parser for c# to read `.` seperated config files
 
