@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Nager.ConfigParser.UnitTest.Model;
 
 namespace Nager.ConfigParser.UnitTest
 {
@@ -8,20 +9,21 @@ namespace Nager.ConfigParser.UnitTest
         [TestMethod]
         public void SerializeTest1()
         {
-            var config = new Mock1DeviceConfiguration
+            var config = new DeviceConfiguration
             {
                 TargetVersion = "MOCK-1234",
                 NightHours = new [] { 1, 2, 3, 4 }
             };
 
             var configParser = new ConfigConvert();
-            var item = configParser.SerializeObject<Mock1DeviceConfiguration>(config);
+            var item = configParser.SerializeObject<DeviceConfiguration>(config);
+            Assert.IsNotNull(item);
         }
 
         [TestMethod]
         public void SerializeTest2()
         {
-            var config = new Mock1DeviceConfiguration
+            var config = new DeviceConfiguration
             {
                 TargetVersion = "MOCK-1234",
                 NightHours = new[] { 1, 2, 3, 4 },
@@ -36,7 +38,8 @@ namespace Nager.ConfigParser.UnitTest
             };
 
             var configParser = new ConfigConvert();
-            var item = configParser.SerializeObject<Mock1DeviceConfiguration>(config);
+            var item = configParser.SerializeObject<DeviceConfiguration>(config);
+            Assert.IsNotNull(item);
         }
     }
 }

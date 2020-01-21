@@ -1,6 +1,6 @@
-﻿namespace Nager.ConfigParser.UnitTest
+﻿namespace Nager.ConfigParser.UnitTest.Model
 {
-    public class Mock1DeviceConfiguration
+    public class DeviceConfiguration
     {
         public string TargetVersion { get; set; }
         [ConfigKey("cardreader.url")]
@@ -14,16 +14,5 @@
         public Photoservice[] Photoservice { get; set; }
         [ConfigKey("night.hours")]
         public int[] NightHours { get; set; }
-    }
-
-    public class Photoservice : ConfigArrayElement
-    {
-        public string SpotId { get; set; }
-        [ConfigKey("photo.url")]
-        public string PhotoUrl { get; set; }
-        [ConfigKey("motion.timeout")]
-        public string MotionTimeout { get; set; }
-        [ConfigKey("publish.ids")]
-        public int[] PublishIds { get; set; }
     }
 }
