@@ -5,7 +5,6 @@ A parser for c# to read `.` seperated config files
 
 ## How can I use it?
 
-### nuget
 The package is available on [nuget](https://www.nuget.org/packages/Nager.ConfigParser)
 ```
 PM> install-package Nager.ConfigParser
