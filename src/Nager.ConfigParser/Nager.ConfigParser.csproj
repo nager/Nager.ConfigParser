@@ -4,12 +4,22 @@
     <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
     <Authors>Tino Hager</Authors>
     <Company>nager.at</Company>
-    <AssemblyVersion>1.0.1</AssemblyVersion>
+    <AssemblyVersion>1.0.2</AssemblyVersion>
     <PackageProjectUrl>https://github.com/tinohager/Nager.ConfigParser</PackageProjectUrl>
     <RepositoryUrl>https://github.com/tinohager/Nager.ConfigParser</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.1</Version>
-    <FileVersion>1.0.1</FileVersion>
+    <Version>1.0.2</Version>
+    <FileVersion>1.0.2</FileVersion>
+    <Description>key value configuration parser</Description>
+    <PackageTags>configuration parser key value</PackageTags>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\Alturos.Yolo\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
