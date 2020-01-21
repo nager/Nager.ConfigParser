@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Nager.ConfigParser.ParserUnit
 {
@@ -8,7 +9,7 @@ namespace Nager.ConfigParser.ParserUnit
 
         public override object Deserialize(string value)
         {
-            if (!double.TryParse(value, out var temp))
+            if (!double.TryParse(value, NumberStyles.Number, CultureInfo.InvariantCulture, out var temp))
             {
                 return temp;
             }
@@ -18,12 +19,12 @@ namespace Nager.ConfigParser.ParserUnit
 
         public override string Serialize(object value)
         {
-            if (value == null)
+            if (value is double item)
             {
-                return null;
+                return item.ToString("0.00", CultureInfo.InvariantCulture);
             }
-
-            return $"{value}";
+            
+            return null;
         }
     }
 }

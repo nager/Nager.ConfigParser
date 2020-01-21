@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 
 namespace Nager.ConfigParser.ParserUnit
@@ -13,7 +14,7 @@ namespace Nager.ConfigParser.ParserUnit
 
             return parts.Select(o =>
             {
-                var success = double.TryParse(o, out double temp);
+                var success = double.TryParse(o, NumberStyles.Number, CultureInfo.InvariantCulture, out double temp);
                 return new { success, temp };
             })
             .Where(o => o.success)
@@ -24,7 +25,7 @@ namespace Nager.ConfigParser.ParserUnit
         {
             if (value is double[] items)
             {
-                return string.Join(",", items);
+                return string.Concat(items.Select(o => o.ToString("0.00", CultureInfo.InvariantCulture)));
             }
 
             return null;
