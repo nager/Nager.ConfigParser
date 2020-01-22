@@ -16,7 +16,7 @@ namespace Nager.ConfigParser.UnitTest
             };
 
             var configParser = new ConfigConvert();
-            var item = configParser.SerializeObject<DeviceConfiguration>(config);
+            var item = configParser.SerializeObject(config);
             Assert.IsNotNull(item);
         }
 
@@ -38,8 +38,22 @@ namespace Nager.ConfigParser.UnitTest
             };
 
             var configParser = new ConfigConvert();
-            var item = configParser.SerializeObject<DeviceConfiguration>(config);
+            var item = configParser.SerializeObject(config);
             Assert.IsNotNull(item);
+        }
+
+        [TestMethod]
+        public void SerializeTest3()
+        {
+            var config = new AlarmSystemConfiguration
+            {
+                Active = false,
+                ActiveSensorIds = new double[] { 11.22, 22.5 }
+            };
+
+            var configParser = new ConfigConvert();
+            var item = configParser.SerializeObject(config);
+            Assert.AreEqual("active=False\r\nactivesensorids=11.22,22.50", item.Trim());
         }
     }
 }

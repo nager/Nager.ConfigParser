@@ -25,7 +25,7 @@ namespace Nager.ConfigParser.ParserUnit
         {
             if (value is double[] items)
             {
-                return string.Concat(items.Select(o => o.ToString("0.00", CultureInfo.InvariantCulture)));
+                return string.Join(",", items.Select(o => o.ToString("0.00", CultureInfo.InvariantCulture)));
             }
 
             return null;
