@@ -6,15 +6,18 @@ namespace Nager.ConfigParser.ParserUnit
 {
     internal class DoubleArrayParserUnit : BaseParserUnit
     {
+        public DoubleArrayParserUnit(CultureInfo cultureInfo, char delimiterChar) : base(cultureInfo, delimiterChar)
+        { }
+
         public override Type ParserUnitType => typeof(double[]);
 
         public override object Deserialize(string value)
         {
-            var parts = value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            var parts = value.Split(new char[] { base._delimiterChar }, StringSplitOptions.RemoveEmptyEntries);
 
             return parts.Select(o =>
             {
-                var success = double.TryParse(o, NumberStyles.Number, CultureInfo.InvariantCulture, out double temp);
+                var success = double.TryParse(o, NumberStyles.Number, base._cultureInfo, out double temp);
                 return new { success, temp };
             })
             .Where(o => o.success)
@@ -25,7 +28,7 @@ namespace Nager.ConfigParser.ParserUnit
         {
             if (value is double[] items)
             {
-                return string.Join(",", items.Select(o => o.ToString("0.00", CultureInfo.InvariantCulture)));
+                return string.Join(base._delimiterChar.ToString(), items.Select(o => o.ToString(base._cultureInfo)));
             }
 
             return null;

@@ -5,11 +5,14 @@ namespace Nager.ConfigParser.ParserUnit
 {
     internal class DoubleParserUnit : BaseParserUnit
     {
+        public DoubleParserUnit(CultureInfo cultureInfo) : base(cultureInfo)
+        { }
+
         public override Type ParserUnitType => typeof(double);
 
         public override object Deserialize(string value)
         {
-            if (!double.TryParse(value, NumberStyles.Number, CultureInfo.InvariantCulture, out var temp))
+            if (!double.TryParse(value, NumberStyles.Number, base._cultureInfo, out var temp))
             {
                 return temp;
             }
@@ -21,9 +24,9 @@ namespace Nager.ConfigParser.ParserUnit
         {
             if (value is double item)
             {
-                return item.ToString("0.00", CultureInfo.InvariantCulture);
+                return item.ToString(base._cultureInfo);
             }
-            
+
             return null;
         }
     }

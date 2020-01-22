@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -9,11 +10,20 @@ namespace Nager.ConfigParser
     public class ConfigConvert
     {
         private readonly char _splitChar;
+        private readonly char _delimiterChar;
         private readonly Dictionary<Type, BaseParserUnit> _parserUnits = new Dictionary<Type, BaseParserUnit>();
+        private readonly CultureInfo _cultureInfo;
 
-        public ConfigConvert(char splitChar = '=', BaseParserUnit[] customParserUnits = null)
+        public ConfigConvert(char splitChar = '=', char delimiterChar = ',', BaseParserUnit[] customParserUnits = null, CultureInfo cultureInfo = null)
         {
             this._splitChar = splitChar;
+            this._delimiterChar = delimiterChar;
+
+            if (cultureInfo == null)
+            {
+                cultureInfo = CultureInfo.InvariantCulture;
+            }
+            this._cultureInfo = cultureInfo;
 
             var parserUnits = this.GetBaseParserUnits();
             foreach (var parserUnit in parserUnits)
@@ -21,7 +31,7 @@ namespace Nager.ConfigParser
                 this._parserUnits.Add(parserUnit.ParserUnitType, parserUnit);
             }
 
-            if(customParserUnits != null)
+            if (customParserUnits != null)
             {
                 foreach (var parserUnit in customParserUnits)
                 {
@@ -35,7 +45,24 @@ namespace Nager.ConfigParser
             return typeof(BaseParserUnit)
             .Assembly.GetTypes()
             .Where(t => t.IsSubclassOf(typeof(BaseParserUnit)) && !t.IsAbstract)
-            .Select(t => (BaseParserUnit)Activator.CreateInstance(t));
+            .Select(t =>
+            {
+                var parameters = t.GetConstructors().FirstOrDefault().GetParameters();
+
+                if (parameters.Length == 2)
+                {
+                    return (BaseParserUnit)Activator.CreateInstance(t, this._cultureInfo, this._delimiterChar);
+                }
+                else if (parameters.Length == 1 && parameters[0].ParameterType == typeof(char))
+                {
+                    return (BaseParserUnit)Activator.CreateInstance(t, this._delimiterChar);
+                }
+                else if (parameters.Length == 1 && parameters[0].ParameterType == typeof(CultureInfo))
+                {
+                    return (BaseParserUnit)Activator.CreateInstance(t, this._cultureInfo);
+                }
+                return (BaseParserUnit)Activator.CreateInstance(t);
+            });
         }
 
         public T DeserializeObject<T>(string value) where T : new()
@@ -207,7 +234,7 @@ namespace Nager.ConfigParser
                 {
                     return null;
                 }
-                return $"{key}={configData}";
+                return $"{key}{this._splitChar}{configData}";
             }
 
             var item = property.GetValue(value);
@@ -216,7 +243,7 @@ namespace Nager.ConfigParser
                 return null;
             }
 
-            return $"{key}={item}";
+            return $"{key}{this._splitChar}{item}";
         }
 
         private string ProcessWriteArray<T>(PropertyInfo property, string key, T value)

@@ -131,7 +131,7 @@ namespace Nager.ConfigParser.UnitTest
             var config = "active = false\r\n" +
                 "name = House1\r\n" +
                 "webhook = http://securitycompany1.com/alarm/\r\n" +
-                "activesensorids=11.21,20.311,30.4,104";
+                "activesensorids = 11.21,20.311,30.4,104";
 
             var configParser = new ConfigConvert();
             var item = configParser.DeserializeObject<AlarmSystemConfiguration>(config);
@@ -148,7 +148,7 @@ namespace Nager.ConfigParser.UnitTest
             var config = "active = false\r\n" +
                 "name = House1\r\n" +
                 "webhook = http://securitycompany1.com/alarm/\r\n" +
-                "activesensorids=";
+                "activesensorids =";
 
             var configParser = new ConfigConvert();
             var item = configParser.DeserializeObject<AlarmSystemConfiguration>(config);
@@ -157,6 +157,34 @@ namespace Nager.ConfigParser.UnitTest
             Assert.AreEqual("House1", item.Name);
             Assert.AreEqual("http://securitycompany1.com/alarm/", item.Webhook);
             CollectionAssert.AreEqual(new double[0], item.ActiveSensorIds);
+        }
+
+        [TestMethod]
+        public void CustomSplitCharTest()
+        {
+            var config = "active:false\r\n" +
+                "name:House1\r\n" +
+                "activesensorids:3,2";
+
+            var configParser = new ConfigConvert(splitChar: ':');
+            var item = configParser.DeserializeObject<AlarmSystemConfiguration>(config);
+
+            Assert.IsFalse(item.Active);
+            Assert.AreEqual("House1", item.Name);
+            CollectionAssert.AreEqual(new double[] { 3, 2 }, item.ActiveSensorIds);
+        }
+
+        [TestMethod]
+        public void CustomDelimiterCharTest()
+        {
+            var config = "active=false\r\n" +
+                "activesensorids=3|2|1";
+
+            var configParser = new ConfigConvert(delimiterChar: '|');
+            var item = configParser.DeserializeObject<AlarmSystemConfiguration>(config);
+
+            Assert.IsFalse(item.Active);
+            CollectionAssert.AreEqual(new double[] { 3, 2, 1 }, item.ActiveSensorIds);
         }
     }
 }
