@@ -77,6 +77,17 @@ namespace Nager.ConfigParser.UnitTest
         }
 
         [TestMethod]
+        public void IntArrayTest4()
+        {
+            var config = "night.hours=";
+
+            var configParser = new ConfigConvert();
+            var item = configParser.DeserializeObject<DeviceConfiguration>(config);
+
+            CollectionAssert.AreEqual(new int[0], item.NightHours);
+        }
+
+        [TestMethod]
         public void ConfigArrayTest1()
         {
             var config = "targetversion=MOCK-XXX\r\n" +
@@ -129,6 +140,23 @@ namespace Nager.ConfigParser.UnitTest
             Assert.AreEqual("House1", item.Name);
             Assert.AreEqual("http://securitycompany1.com/alarm/", item.Webhook);
             CollectionAssert.AreEqual(new double[] { 11.21, 20.311, 30.4, 104 }, item.ActiveSensorIds);
+        }
+
+        [TestMethod]
+        public void AlarmSystemTest3()
+        {
+            var config = "active = false\r\n" +
+                "name = House1\r\n" +
+                "webhook = http://securitycompany1.com/alarm/\r\n" +
+                "activesensorids=";
+
+            var configParser = new ConfigConvert();
+            var item = configParser.DeserializeObject<AlarmSystemConfiguration>(config);
+
+            Assert.IsFalse(item.Active);
+            Assert.AreEqual("House1", item.Name);
+            Assert.AreEqual("http://securitycompany1.com/alarm/", item.Webhook);
+            CollectionAssert.AreEqual(new double[0], item.ActiveSensorIds);
         }
     }
 }
