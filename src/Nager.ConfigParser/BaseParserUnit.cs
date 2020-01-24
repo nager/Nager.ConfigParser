@@ -6,7 +6,7 @@ namespace Nager.ConfigParser
     public abstract class BaseParserUnit
     {
         internal readonly CultureInfo _cultureInfo;
-        internal readonly char _delimiterChar;
+        internal readonly char _valueDelimiter;
 
         public BaseParserUnit()
         { }
@@ -16,15 +16,15 @@ namespace Nager.ConfigParser
             this._cultureInfo = cultureInfo;
         }
 
-        public BaseParserUnit(CultureInfo cultureInfo, char delimiterChar)
+        public BaseParserUnit(CultureInfo cultureInfo, char valueDelimiter)
         {
             this._cultureInfo = cultureInfo;
-            this._delimiterChar = delimiterChar;
+            this._valueDelimiter = valueDelimiter;
         }
 
-        public BaseParserUnit(char delimiterChar)
+        public BaseParserUnit(char valueDelimiter)
         {
-            this._delimiterChar = delimiterChar;
+            this._valueDelimiter = valueDelimiter;
         }
 
         public abstract Type ParserUnitType { get; }

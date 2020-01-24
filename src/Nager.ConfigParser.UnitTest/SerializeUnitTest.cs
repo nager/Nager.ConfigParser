@@ -65,7 +65,7 @@ namespace Nager.ConfigParser.UnitTest
                 ActiveSensorIds = new double[] { 11.22, 22.5 }
             };
 
-            var configParser = new ConfigConvert(splitChar: ':');
+            var configParser = new ConfigConvert(new ConfigConvertConfig { KeyValueDelimiter = ':' });
             var item = configParser.SerializeObject(config);
             Assert.AreEqual("active:False\r\nactivesensorids:11.22,22.5", item.Trim());
         }

@@ -6,14 +6,14 @@ namespace Nager.ConfigParser.ParserUnit
 {
     internal class DoubleArrayParserUnit : BaseParserUnit
     {
-        public DoubleArrayParserUnit(CultureInfo cultureInfo, char delimiterChar) : base(cultureInfo, delimiterChar)
+        public DoubleArrayParserUnit(CultureInfo cultureInfo, char valueDelimiter) : base(cultureInfo, valueDelimiter)
         { }
 
         public override Type ParserUnitType => typeof(double[]);
 
         public override object Deserialize(string value)
         {
-            var parts = value.Split(new char[] { base._delimiterChar }, StringSplitOptions.RemoveEmptyEntries);
+            var parts = value.Split(new char[] { base._valueDelimiter }, StringSplitOptions.RemoveEmptyEntries);
 
             return parts.Select(o =>
             {
@@ -28,7 +28,7 @@ namespace Nager.ConfigParser.ParserUnit
         {
             if (value is double[] items)
             {
-                return string.Join(base._delimiterChar.ToString(), items.Select(o => o.ToString(base._cultureInfo)));
+                return string.Join(base._valueDelimiter.ToString(), items.Select(o => o.ToString(base._cultureInfo)));
             }
 
             return null;

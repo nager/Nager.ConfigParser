@@ -166,7 +166,7 @@ namespace Nager.ConfigParser.UnitTest
                 "name:House1\r\n" +
                 "activesensorids:3,2";
 
-            var configParser = new ConfigConvert(splitChar: ':');
+            var configParser = new ConfigConvert(new ConfigConvertConfig { KeyValueDelimiter = ':' });
             var item = configParser.DeserializeObject<AlarmSystemConfiguration>(config);
 
             Assert.IsFalse(item.Active);
@@ -180,7 +180,7 @@ namespace Nager.ConfigParser.UnitTest
             var config = "active=false\r\n" +
                 "activesensorids=3|2|1";
 
-            var configParser = new ConfigConvert(delimiterChar: '|');
+            var configParser = new ConfigConvert(new ConfigConvertConfig { ValueDelimiter = '|'});
             var item = configParser.DeserializeObject<AlarmSystemConfiguration>(config);
 
             Assert.IsFalse(item.Active);

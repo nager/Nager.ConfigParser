@@ -9,21 +9,16 @@ namespace Nager.ConfigParser
 {
     public class ConfigConvert
     {
-        private readonly char _splitChar;
-        private readonly char _delimiterChar;
+        private readonly ConfigConvertConfig _config;
         private readonly Dictionary<Type, BaseParserUnit> _parserUnits = new Dictionary<Type, BaseParserUnit>();
-        private readonly CultureInfo _cultureInfo;
 
-        public ConfigConvert(char splitChar = '=', char delimiterChar = ',', BaseParserUnit[] customParserUnits = null, CultureInfo cultureInfo = null)
+        public ConfigConvert(ConfigConvertConfig config = default, BaseParserUnit[] customParserUnits = null)
         {
-            this._splitChar = splitChar;
-            this._delimiterChar = delimiterChar;
-
-            if (cultureInfo == null)
+            if (config == default)
             {
-                cultureInfo = CultureInfo.InvariantCulture;
+                config = new ConfigConvertConfig();
             }
-            this._cultureInfo = cultureInfo;
+            this._config = config;
 
             var parserUnits = this.GetBaseParserUnits();
             foreach (var parserUnit in parserUnits)
@@ -51,15 +46,15 @@ namespace Nager.ConfigParser
 
                 if (parameters.Length == 2)
                 {
-                    return (BaseParserUnit)Activator.CreateInstance(t, this._cultureInfo, this._delimiterChar);
+                    return (BaseParserUnit)Activator.CreateInstance(t, this._config.CultureInfo, this._config.ValueDelimiter);
                 }
                 else if (parameters.Length == 1 && parameters[0].ParameterType == typeof(char))
                 {
-                    return (BaseParserUnit)Activator.CreateInstance(t, this._delimiterChar);
+                    return (BaseParserUnit)Activator.CreateInstance(t, this._config.ValueDelimiter);
                 }
                 else if (parameters.Length == 1 && parameters[0].ParameterType == typeof(CultureInfo))
                 {
-                    return (BaseParserUnit)Activator.CreateInstance(t, this._cultureInfo);
+                    return (BaseParserUnit)Activator.CreateInstance(t, this._config.CultureInfo);
                 }
                 return (BaseParserUnit)Activator.CreateInstance(t);
             });
@@ -72,13 +67,13 @@ namespace Nager.ConfigParser
                 return default;
             }
 
-            var configLines = value.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            var configLines = value.Split(this._config.ConfigDelimiter, StringSplitOptions.RemoveEmptyEntries);
             if (configLines.Length == 0)
             {
                 return default;
             }
 
-            var configurations = configLines.Select(o => o.Split(new char[] { this._splitChar }, 2, StringSplitOptions.RemoveEmptyEntries))
+            var configurations = configLines.Select(o => o.Split(new char[] { this._config.KeyValueDelimiter }, 2, StringSplitOptions.RemoveEmptyEntries))
                 .Select(o => new Configuration(o.FirstOrDefault(), o.LastOrDefault()));
 
             var item = new T();
@@ -229,21 +224,21 @@ namespace Nager.ConfigParser
             var parserUnit = this._parserUnits.Where(o => o.Key.Equals(property.PropertyType)).Select(o => o.Value).FirstOrDefault();
             if (parserUnit != null)
             {
-                var configData = parserUnit.Serialize(property.GetValue(value));
-                if (configData == null)
+                var parserUnitConfigValue = parserUnit.Serialize(property.GetValue(value));
+                if (parserUnitConfigValue == null)
                 {
                     return null;
                 }
-                return $"{key}{this._splitChar}{configData}";
+                return $"{key}{this._config.KeyValueDelimiter}{parserUnitConfigValue}";
             }
 
-            var item = property.GetValue(value);
-            if (item == null)
+            var configValue = property.GetValue(value);
+            if (configValue == null)
             {
                 return null;
             }
 
-            return $"{key}{this._splitChar}{item}";
+            return $"{key}{this._config.KeyValueDelimiter}{configValue}";
         }
 
         private string ProcessWriteArray<T>(PropertyInfo property, string key, T value)

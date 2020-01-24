@@ -5,14 +5,14 @@ namespace Nager.ConfigParser.ParserUnit
 {
     internal class IntArrayParserUnit : BaseParserUnit
     {
-        public IntArrayParserUnit(char delimiterChar) : base(delimiterChar)
+        public IntArrayParserUnit(char valueDelimiter) : base(valueDelimiter)
         { }
 
         public override Type ParserUnitType => typeof(int[]);
 
         public override object Deserialize(string value)
         {
-            var parts = value.Split(new char[] { base._delimiterChar }, StringSplitOptions.RemoveEmptyEntries);
+            var parts = value.Split(new char[] { base._valueDelimiter }, StringSplitOptions.RemoveEmptyEntries);
 
             return parts.Select(o =>
             {
@@ -27,7 +27,7 @@ namespace Nager.ConfigParser.ParserUnit
         {
             if (value is int[] items)
             {
-                return string.Join(base._delimiterChar.ToString(), items);
+                return string.Join(base._valueDelimiter.ToString(), items);
             }
 
             return null;
