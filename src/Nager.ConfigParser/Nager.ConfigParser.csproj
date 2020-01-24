@@ -4,14 +4,14 @@
     <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
     <Authors>Tino Hager</Authors>
     <Company>nager.at</Company>
-    <AssemblyVersion>1.2.0</AssemblyVersion>
+    <AssemblyVersion>1.2.1</AssemblyVersion>
     <PackageProjectUrl>https://github.com/tinohager/Nager.ConfigParser</PackageProjectUrl>
     <RepositoryUrl>https://github.com/tinohager/Nager.ConfigParser</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.2.0</Version>
-    <FileVersion>1.2.0</FileVersion>
-    <Description>key value key-value keyvalue configuration config parser</Description>
-    <PackageTags>configuration parser key value</PackageTags>
+    <Version>1.2.1</Version>
+    <FileVersion>1.2.1</FileVersion>
+    <Description>A universal and configurable key value configuration parser.</Description>
+    <PackageTags>key value key-value keyvalue configuration config parser</PackageTags>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
   </PropertyGroup>
 
