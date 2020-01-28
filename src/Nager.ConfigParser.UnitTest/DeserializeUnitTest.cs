@@ -175,12 +175,24 @@ namespace Nager.ConfigParser.UnitTest
         }
 
         [TestMethod]
-        public void CustomDelimiterCharTest()
+        public void CustomValueDelimiterTest()
         {
             var config = "active=false\r\n" +
                 "activesensorids=3|2|1";
 
             var configParser = new ConfigConvert(new ConfigConvertConfig { ValueDelimiter = '|'});
+            var item = configParser.DeserializeObject<AlarmSystemConfiguration>(config);
+
+            Assert.IsFalse(item.Active);
+            CollectionAssert.AreEqual(new double[] { 3, 2, 1 }, item.ActiveSensorIds);
+        }
+
+        [TestMethod]
+        public void CustomConfigDelimiterWithCustomValueDelimiterTest()
+        {
+            var config = "active=false,activesensorids=3|2|1";
+
+            var configParser = new ConfigConvert(new ConfigConvertConfig { ConfigDelimiter = new char[] { ',' }, ValueDelimiter = '|' });
             var item = configParser.DeserializeObject<AlarmSystemConfiguration>(config);
 
             Assert.IsFalse(item.Active);
