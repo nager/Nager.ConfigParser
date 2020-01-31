@@ -1,3 +1,4 @@
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Nager.ConfigParser.UnitTest.Model;
 using System.IO;
@@ -197,6 +198,29 @@ namespace Nager.ConfigParser.UnitTest
 
             Assert.IsFalse(item.Active);
             CollectionAssert.AreEqual(new double[] { 3, 2, 1 }, item.ActiveSensorIds);
+        }
+
+        [TestMethod]
+        public void ObjectArrayTest1()
+        {
+            var config = "#comment1\r\n#comment2\r\naccount.1.enable = 1\r\naccount.1.label = Front\r\naccount.1.display_name = Front";
+
+            var configParser = new ConfigConvert(new ConfigConvertConfig());
+            var item = configParser.DeserializeObject<AccountCollection>(config);
+
+            item.Should().BeEquivalentTo(new AccountCollection
+            {
+                Accounts = new Account[]
+                {
+                    new Account
+                    {
+                         ConfigArrayIndex = "1",
+                         Enable = 1,
+                         Label= "Front",
+                         DisplayName = "Front"
+                    }
+                }
+            });
         }
     }
 }
