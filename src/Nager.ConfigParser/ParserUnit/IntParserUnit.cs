@@ -8,7 +8,7 @@ namespace Nager.ConfigParser.ParserUnit
 
         public override object Deserialize(string value)
         {
-            if (!int.TryParse(value, out var temp))
+            if (int.TryParse(value, out var temp))
             {
                 return temp;
             }
