@@ -26,7 +26,7 @@ alarm.reset.seconds=2
 ***Read text config***
 ```cs
 var configConvert = new ConfigConvert();
-var item = configConvert.DeserializeObject<ExampleConfiguration>(config);
+var item = configConvert.DeserializeObject<ExampleConfiguration>(configData);
 
 public class ExampleConfiguration
 {
@@ -37,6 +37,13 @@ public class ExampleConfiguration
     [ConfigKey("alarm.reset.seconds")]
     public int AlarmResetSeconds { get; set; }
 }
+```
+
+***Save to text config***
+```cs
+var configuration = new ExampleConfiguration();
+var configConvert = new ConfigConvert()
+var configData = configuration.SerializeObject(configuration);
 ```
 
 ### Array config
