@@ -24,7 +24,7 @@ alarm.reset.seconds=2
 ```
 
 ***data structure***
-```
+```cs
 public class ExampleConfiguration
 {
     [ConfigKey("alarm.signal")]
