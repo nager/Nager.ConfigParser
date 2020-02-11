@@ -25,7 +25,7 @@ alarm.reset.seconds=2
 
 ***data structure***
 ```cs
-public class ExampleConfiguration
+public class MyConfiguration
 {
     [ConfigKey("alarm.signal")]
     public string AlarmSignal { get; set; }
@@ -39,12 +39,12 @@ public class ExampleConfiguration
 ***Read text config***
 ```cs
 var configConvert = new ConfigConvert();
-var item = configConvert.DeserializeObject<ExampleConfiguration>(configData);
+var item = configConvert.DeserializeObject<MyConfiguration>(configData);
 ```
 
 ***Save to text config***
 ```cs
-var configuration = new ExampleConfiguration();
+var configuration = new MyConfiguration();
 var configConvert = new ConfigConvert()
 var configData = configuration.SerializeObject(configuration);
 ```
@@ -66,9 +66,9 @@ alarm.device.2.timeout=100
 ***Read text config***
 ```cs
 var configConvert = new ConfigConvert();
-var item = configConvert.DeserializeObject<ExampleConfiguration>(config);
+var item = configConvert.DeserializeObject<MyConfiguration>(config);
 
-public class ExampleConfiguration
+public class MyConfiguration
 {
     [ConfigKey("alarm.signal")]
     public string AlarmSignal { get; set; }
