@@ -23,11 +23,8 @@ alarm.signal.color=red
 alarm.reset.seconds=2
 ```
 
-***Read text config***
-```cs
-var configConvert = new ConfigConvert();
-var item = configConvert.DeserializeObject<ExampleConfiguration>(configData);
-
+***data structure***
+```
 public class ExampleConfiguration
 {
     [ConfigKey("alarm.signal")]
@@ -37,6 +34,12 @@ public class ExampleConfiguration
     [ConfigKey("alarm.reset.seconds")]
     public int AlarmResetSeconds { get; set; }
 }
+```
+
+***Read text config***
+```cs
+var configConvert = new ConfigConvert();
+var item = configConvert.DeserializeObject<ExampleConfiguration>(configData);
 ```
 
 ***Save to text config***
