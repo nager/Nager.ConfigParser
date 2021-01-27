@@ -12,7 +12,7 @@ PM> install-package Nager.ConfigParser
 
 
 
-## Examples
+## Examples of use
 
 ### Simple config
 
